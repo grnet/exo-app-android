@@ -32,7 +32,7 @@ class DownloadCDNModule : BaseEnvironmentModule() {
     @Singleton
     @DownloadCDNHomeCountry
     @Provides
-    fun provideDiagnosisHomeCountry(): LocationCode = LocationCode("DE")
+    fun provideDiagnosisHomeCountry(): LocationCode = LocationCode("GR")
 
     companion object {
         private val DOWNLOAD_CDN_CONNECTION_SPECS = ConnectionSpec

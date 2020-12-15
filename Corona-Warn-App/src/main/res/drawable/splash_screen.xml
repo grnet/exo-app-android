@@ -6,7 +6,7 @@
 
     <!-- logo -->
     <item
-        android:drawable="@drawable/ic_splash_logo_round"
+        android:drawable="@drawable/ic_logo_splash_exo"
         android:gravity="center" />
 
 </layer-list>

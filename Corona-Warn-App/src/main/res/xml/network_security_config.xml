@@ -2,12 +2,14 @@
 <network-security-config xmlns:tools="http://schemas.android.com/tools">
 
     <domain-config cleartextTrafficPermitted="false">
-        <domain includeSubdomains="true">coronawarn.app</domain>
-        <domain includeSubdomains="true">main.px.t-online.de</domain>
+        <domain includeSubdomains="true">grnet.gr</domain>
+        <domain includeSubdomains="true">exo.grnet.gr</domain>
         <pin-set
             expiration="2024-02-12"
             tools:ignore="MissingBackupPin">
-            <pin digest="SHA-256">c3jf+L8VIAFQnJJDM6Mfb4MtI1JnhVS8JwZHMwJj28M=</pin>
+            <pin digest="SHA-256">/SwRmXqAABB5/3fOyhvEA4kdjhMNKKFW5RBg6AIkBgM=</pin>
+            <pin digest="SHA-256">ziEEaWxrYJ1jq5b8RoPxEVmmcTR8e9uCYFEPxnEC5+o=</pin>
+            <pin digest="SHA-256">jfDF+BZfcOqf/nOXivYM1V1bII8ja2Uj1F5EjVEp+Ik=</pin>
         </pin-set>
         <trust-anchors>
             <certificates
@@ -15,5 +17,4 @@
                 src="system" />
         </trust-anchors>
     </domain-config>
-
 </network-security-config>

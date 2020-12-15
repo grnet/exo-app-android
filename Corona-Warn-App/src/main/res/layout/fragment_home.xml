@@ -41,18 +41,18 @@
 
                 <ImageView
                     android:id="@+id/main_header_logo"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    bind:cwaContentDescription="@{@string/accessibility_logo}"
+                    android:layout_width="171dp"
+                    android:layout_height="119dp"
+                    android:focusable="true"
                     android:scaleType="fitStart"
                     android:src="@drawable/ic_main_header"
-                    android:focusable="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/main_header_share"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    bind:cwaContentDescription="@{@string/accessibility_logo}"
                     tools:ignore="ContentDescription" />
-
                 <include
                     android:id="@+id/main_header_share"
                     layout="@layout/include_button_icon"

@@ -60,9 +60,9 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
         binding.submissionDispatcherHeader.headerButtonBack.buttonIcon.setOnClickListener {
             viewModel.onBackPressed()
         }
-        binding.submissionDispatcherContent.submissionDispatcherQr.dispatcherCard.setOnClickListener {
-            checkForDataPrivacyPermission()
-        }
+//        binding.submissionDispatcherContent.submissionDispatcherQr.dispatcherCard.setOnClickListener {
+//            checkForDataPrivacyPermission()
+//        }
         binding.submissionDispatcherContent.submissionDispatcherTanCode.dispatcherCard.setOnClickListener {
             viewModel.onTanPressed()
         }
@@ -72,22 +72,22 @@ class SubmissionDispatcherFragment : Fragment(R.layout.fragment_submission_dispa
     }
 
     private fun checkForDataPrivacyPermission() {
-        val cameraPermissionRationaleDialogInstance = DialogHelper.DialogInstance(
-            requireActivity(),
-            R.string.submission_dispatcher_qr_privacy_dialog_headline,
-            R.string.submission_dispatcher_qr_privacy_dialog_body,
-            R.string.submission_dispatcher_qr_privacy_dialog_button_positive,
-            R.string.submission_dispatcher_qr_privacy_dialog_button_negative,
-            true,
-            {
-                privacyPermissionIsGranted()
-            }
-        )
-
-        DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
+//        val cameraPermissionRationaleDialogInstance = DialogHelper.DialogInstance(
+//            requireActivity(),
+//            R.string.submission_dispatcher_qr_privacy_dialog_headline,
+//            R.string.submission_dispatcher_qr_privacy_dialog_body,
+//            R.string.submission_dispatcher_qr_privacy_dialog_button_positive,
+//            R.string.submission_dispatcher_qr_privacy_dialog_button_negative,
+//            true,
+//            {
+//                privacyPermissionIsGranted()
+//            }
+//        )
+//
+//        DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
     }
 
     private fun privacyPermissionIsGranted() {
-        viewModel.onQRScanPressed()
+//        viewModel.onQRScanPressed()
     }
 }
