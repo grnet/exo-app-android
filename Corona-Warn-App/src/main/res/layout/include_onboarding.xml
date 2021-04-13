@@ -159,31 +159,31 @@
                 app:layout_constraintTop_toBottomOf="@id/onboarding_body_emphasized"
                 tools:text="@string/onboarding_tracing_easy_language_explanation" />
 
-            <include
-                android:id="@+id/onboarding_interoperability"
-                layout="@layout/include_interoperability"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:layout_marginBottom="@dimen/spacing_normal"
-                android:visibility="@{FormatterHelper.formatVisibility(countryData != null)}"
-                app:countryData="@{countryData}"
-                app:countryListTitle="@{@string/interoperability_onboarding_list_title}"
-                app:firstSection="@{@string/interoperability_onboarding_first_section}"
-                app:isOnboarding="@{true}"
-                app:isRiskdetection="@{false}"
-                app:layout_constraintBottom_toTopOf="@+id/onboarding_location_card"
-                app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-                app:layout_constraintStart_toStartOf="@+id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_easy_language"
-                app:secondSection="@{@string/interoperability_onboarding_second_section}"
-                app:thirdSection="@{@string/interoperability_onboarding_randomid_download_free}"
-                app:title="@{@string/interoperability_onboarding_title}" />
+<!--            <include-->
+<!--                android:id="@+id/onboarding_interoperability"-->
+<!--                layout="@layout/include_interoperability"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/spacing_normal"-->
+<!--                android:layout_marginBottom="@dimen/spacing_normal"-->
+<!--                android:visibility="@{FormatterHelper.formatVisibility(countryData != null)}"-->
+<!--                app:countryData="@{countryData}"-->
+<!--                app:countryListTitle="@{@string/interoperability_onboarding_list_title}"-->
+<!--                app:firstSection="@{@string/interoperability_onboarding_first_section}"-->
+<!--                app:isOnboarding="@{true}"-->
+<!--                app:isRiskdetection="@{false}"-->
+<!--                app:layout_constraintBottom_toTopOf="@+id/onboarding_location_card"-->
+<!--                app:layout_constraintEnd_toStartOf="@+id/guideline_end"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/guideline_start"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/onboarding_easy_language"-->
+<!--                app:secondSection="@{@string/interoperability_onboarding_second_section}"-->
+<!--                app:thirdSection="@{@string/interoperability_onboarding_randomid_download_free}"-->
+<!--                app:title="@{@string/interoperability_onboarding_title}" />-->
 
             <include
                 android:id="@+id/onboarding_location_card"
                 layout="@layout/include_tracing_status_card"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_large"
                 android:focusable="true"
@@ -193,18 +193,17 @@
                 app:icon="@{locationIconCard}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
-                app:layout_constraintTop_toBottomOf="@+id/onboarding_interoperability" />
+                app:layout_constraintTop_toBottomOf="@+id/onboarding_easy_language" />
 
             <include
                 android:id="@+id/onboarding_location_card_16_years"
                 layout="@layout/include_16_years"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_small"
                 android:focusable="true"
+                tools:visibility="visible"
                 android:visibility="@{FormatterHelper.formatVisibilityText(locationHeadlineCard)}"
-                app:body="@{@string/sixteen_description_text}"
-                app:headline="@{@string/sixteen_title_text}"
                 app:layout_constraintEnd_toStartOf="@+id/guideline_card_end"
                 app:layout_constraintStart_toStartOf="@+id/guideline_card_start"
                 app:layout_constraintTop_toBottomOf="@+id/onboarding_location_card" />
@@ -212,9 +211,9 @@
             <include
                 android:id="@+id/onboarding_card"
                 layout="@layout/include_tracing_status_card"
-                android:layout_width="@dimen/match_constraint"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium"
+                android:layout_marginTop="@dimen/spacing_small"
                 android:focusable="true"
                 android:visibility="@{FormatterHelper.formatVisibilityText(headlineCard)}"
                 app:body="@{bodyCard}"

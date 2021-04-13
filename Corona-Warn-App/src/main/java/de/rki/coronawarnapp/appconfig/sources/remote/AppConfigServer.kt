@@ -2,17 +2,15 @@ package de.rki.coronawarnapp.appconfig.sources.remote
 
 import dagger.Lazy
 import dagger.Reusable
+import de.rki.coronawarnapp.appconfig.download.AppConfigApiV2
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
-import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
-import de.rki.coronawarnapp.environment.download.DownloadCDNHomeCountry
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.ZipHelper.readIntoMap
 import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.retrofit.etag
 import de.rki.coronawarnapp.util.security.VerificationKeys
-import okhttp3.Cache
 import okhttp3.CacheControl
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -25,17 +23,15 @@ import javax.inject.Inject
 
 @Reusable
 class AppConfigServer @Inject constructor(
-    private val api: Lazy<AppConfigApiV1>,
+    private val api: Lazy<AppConfigApiV2>,
     private val verificationKeys: VerificationKeys,
-    private val timeStamper: TimeStamper,
-    @DownloadCDNHomeCountry private val homeCountry: LocationCode,
-    @AppConfigHttpCache private val cache: Cache
+    private val timeStamper: TimeStamper
 ) {
 
     internal suspend fun downloadAppConfig(): InternalConfigData {
         Timber.tag(TAG).d("Fetching app config.")
 
-        val response = api.get().getApplicationConfiguration(homeCountry.identifier)
+        val response = api.get().getApplicationConfiguration()
         if (!response.isSuccessful) throw HttpException(response)
 
         val rawConfig = with(
@@ -57,8 +53,7 @@ class AppConfigServer @Inject constructor(
             exportBinary
         }
 
-        // If this is a cached response, we need the original timestamp to calculate the time offset
-        val localTime = response.getCacheTimestamp() ?: timeStamper.nowUTC
+        val localTime = timeStamper.nowUTC
 
         val headers = response.headers()
 
@@ -91,18 +86,6 @@ class AppConfigServer @Inject constructor(
     } catch (e: Exception) {
         Timber.e("Failed to get server time.")
         null
-    }
-
-    private fun <T> Response<T>.getCacheTimestamp(): Instant? {
-        val cacheResponse = raw().cacheResponse
-        return cacheResponse?.sentRequestAtMillis?.let {
-            Instant.ofEpochMilli(it)
-        }
-    }
-
-    internal fun clearCache() {
-        Timber.tag(TAG).v("clearCache()")
-        cache.evictAll()
     }
 
     companion object {

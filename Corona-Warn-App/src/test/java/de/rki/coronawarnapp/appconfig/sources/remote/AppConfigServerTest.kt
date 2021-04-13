@@ -1,9 +1,9 @@
 package de.rki.coronawarnapp.appconfig.sources.remote
 
+import de.rki.coronawarnapp.appconfig.download.AppConfigApiV2
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.appconfig.internal.ApplicationConfigurationInvalidException
 import de.rki.coronawarnapp.appconfig.internal.InternalConfigData
-import de.rki.coronawarnapp.diagnosiskeys.server.LocationCode
 import de.rki.coronawarnapp.util.TimeStamper
 import de.rki.coronawarnapp.util.security.VerificationKeys
 import io.kotest.assertions.throwables.shouldThrow
@@ -13,8 +13,6 @@ import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
-import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.test.runBlockingTest
 import okhttp3.Headers
@@ -31,12 +29,10 @@ import java.io.File
 
 class AppConfigServerTest : BaseIOTest() {
 
-    @MockK lateinit var api: AppConfigApiV1
+    @MockK lateinit var api: AppConfigApiV2
     @MockK lateinit var verificationKeys: VerificationKeys
     @MockK lateinit var timeStamper: TimeStamper
     private val testDir = File(IO_TEST_BASEDIR, this::class.simpleName!!)
-
-    private val defaultHomeCountry = LocationCode("DE")
 
     @BeforeEach
     fun setup() {
@@ -54,17 +50,15 @@ class AppConfigServerTest : BaseIOTest() {
         testDir.deleteRecursively()
     }
 
-    private fun createInstance(homeCountry: LocationCode = defaultHomeCountry) = AppConfigServer(
+    private fun createInstance() = AppConfigServer(
         api = { api },
         verificationKeys = verificationKeys,
-        homeCountry = homeCountry,
-        cache = mockk(),
         timeStamper = timeStamper
     )
 
     @Test
     fun `application config download`() = runBlockingTest {
-        coEvery { api.getApplicationConfiguration("DE") } returns Response.success(
+        coEvery { api.getApplicationConfiguration() } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody(),
             Headers.headersOf(
                 "Date", "Tue, 03 Nov 2020 08:46:03 GMT",
@@ -92,7 +86,7 @@ class AppConfigServerTest : BaseIOTest() {
 
     @Test
     fun `application config data is faulty`() = runBlockingTest {
-        coEvery { api.getApplicationConfiguration("DE") } returns Response.success(
+        coEvery { api.getApplicationConfiguration() } returns Response.success(
             "123ABC".decodeHex().toResponseBody()
         )
 
@@ -105,7 +99,7 @@ class AppConfigServerTest : BaseIOTest() {
 
     @Test
     fun `application config verification fails`() = runBlockingTest {
-        coEvery { api.getApplicationConfiguration("DE") } returns Response.success(
+        coEvery { api.getApplicationConfiguration() } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody()
         )
         every { verificationKeys.hasInvalidSignature(any(), any()) } returns true
@@ -119,7 +113,7 @@ class AppConfigServerTest : BaseIOTest() {
 
     @Test
     fun `missing server date leads to local time fallback`() = runBlockingTest {
-        coEvery { api.getApplicationConfiguration("DE") } returns Response.success(
+        coEvery { api.getApplicationConfiguration() } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody(),
             Headers.headersOf(
                 "ETag", "I am an ETag :)!"
@@ -140,7 +134,7 @@ class AppConfigServerTest : BaseIOTest() {
 
     @Test
     fun `missing server etag leads to exception`() = runBlockingTest {
-        coEvery { api.getApplicationConfiguration("DE") } returns Response.success(
+        coEvery { api.getApplicationConfiguration() } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody()
         )
 
@@ -153,7 +147,7 @@ class AppConfigServerTest : BaseIOTest() {
 
     @Test
     fun `local offset is the difference between server time and local time`() = runBlockingTest {
-        coEvery { api.getApplicationConfiguration("DE") } returns Response.success(
+        coEvery { api.getApplicationConfiguration() } returns Response.success(
             APPCONFIG_BUNDLE.toResponseBody(),
             Headers.headersOf(
                 "Date", "Tue, 03 Nov 2020 06:35:16 GMT",
@@ -168,37 +162,6 @@ class AppConfigServerTest : BaseIOTest() {
             rawData = APPCONFIG_RAW,
             serverTime = Instant.parse("2020-11-03T06:35:16.000Z"),
             localOffset = Duration.standardHours(-1),
-            etag = "I am an ETag :)!",
-            cacheValidity = Duration.standardSeconds(300)
-        )
-    }
-
-    @Test
-    fun `local offset uses cached timestamps for cached responses`() = runBlockingTest {
-        val response = spyk(
-            Response.success(
-                APPCONFIG_BUNDLE.toResponseBody(),
-                Headers.headersOf(
-                    "Date", "Tue, 03 Nov 2020 06:35:16 GMT",
-                    "ETag", "I am an ETag :)!"
-                )
-            )
-        )
-
-        val mockCacheResponse = mockk<okhttp3.Response>()
-        // The cached one is 2 hours before our local time, so the offset will be -2 hours
-        every { mockCacheResponse.sentRequestAtMillis } returns Instant.parse("2020-11-03T04:35:16.000Z").millis
-        every { response.raw().cacheResponse } returns mockCacheResponse
-
-        coEvery { api.getApplicationConfiguration("DE") } returns response
-        every { timeStamper.nowUTC } returns Instant.parse("2020-11-03T05:35:16.000Z")
-
-        val downloadServer = createInstance()
-
-        downloadServer.downloadAppConfig() shouldBe InternalConfigData(
-            rawData = APPCONFIG_RAW,
-            serverTime = Instant.parse("2020-11-03T06:35:16.000Z"),
-            localOffset = Duration.standardHours(-2),
             etag = "I am an ETag :)!",
             cacheValidity = Duration.standardSeconds(300)
         )

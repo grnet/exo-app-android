@@ -18,9 +18,10 @@ import de.rki.coronawarnapp.ui.main.MainActivity
 import de.rki.coronawarnapp.ui.submission.ApiRequestState
 import de.rki.coronawarnapp.ui.submission.ScanStatus
 import de.rki.coronawarnapp.ui.submission.viewmodel.SubmissionNavigationEvents
-import de.rki.coronawarnapp.util.CameraPermissionHelper
+//import de.rki.coronawarnapp.util.CameraPermissionHelper
 import de.rki.coronawarnapp.util.DialogHelper
 import de.rki.coronawarnapp.util.di.AutoInject
+import de.rki.coronawarnapp.util.formatter.TestResult
 import de.rki.coronawarnapp.util.ui.doNavigate
 import de.rki.coronawarnapp.util.ui.observe2
 import de.rki.coronawarnapp.util.ui.viewBindingLazy
@@ -34,137 +35,144 @@ import javax.inject.Inject
 class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_code_scan),
     AutoInject {
 
-//    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
-//    private val viewModel: SubmissionQRCodeScanViewModel by cwaViewModels { viewModelFactory }
-//
-//    private val binding: FragmentSubmissionQrCodeScanBinding by viewBindingLazy()
-//    private var showsPermissionDialog = false
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        binding.submissionQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
-//            binding.submissionQrCodeScanPreview.setTorch(
-//                isChecked
-//            )
-//        }
-//
-//        binding.submissionQrCodeScanClose.setOnClickListener {
-//            viewModel.onClosePressed()
-//        }
-//
-//        binding.submissionQrCodeScanPreview.decoderFactory =
-//            DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
-//
-//        binding.submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
-//
-//        viewModel.scanStatusValue.observe2(this) {
-//            if (ScanStatus.INVALID == it) {
-//                showInvalidScanDialog()
-//            }
-//        }
-//
-//        viewModel.showRedeemedTokenWarning.observe2(this) {
-//            val dialog = DialogHelper.DialogInstance(
-//                requireActivity(),
-//                R.string.submission_error_dialog_web_tan_redeemed_title,
-//                R.string.submission_error_dialog_web_tan_redeemed_body,
-//                R.string.submission_error_dialog_web_tan_redeemed_button_positive
-//            )
-//
-//            DialogHelper.showDialog(dialog)
-//            goBack()
-//        }
-//
-//        viewModel.registrationState.observe2(this) {
-//            binding.submissionQrCodeScanSpinner.visibility = when (it) {
-//                ApiRequestState.STARTED -> View.VISIBLE
-//                else -> View.GONE
-//            }
-//            if (ApiRequestState.SUCCESS == it) {
-//                doNavigate(
-//                    SubmissionQRCodeScanFragmentDirections
-//                        .actionSubmissionQRCodeScanFragmentToSubmissionResultFragment()
-//                )
-//            }
-//        }
-//
-//        viewModel.registrationError.observe2(this) {
-//            DialogHelper.showDialog(buildErrorDialog(it))
-//        }
-//
-//        viewModel.routeToScreen.observe2(this) {
-//            when (it) {
-//                is SubmissionNavigationEvents.NavigateToDispatcher ->
-//                    navigateToDispatchScreen()
-//                is SubmissionNavigationEvents.NavigateToQRInfo ->
-//                    goBack()
-//            }
-//        }
-//    }
-//
-//    private fun startDecode() {
-//        binding.submissionQrCodeScanPreview.decodeSingle {
-//            viewModel.validateTestGUID(it.text)
-//        }
-//    }
-//
-//    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
-//        return when (exception) {
-//            is BadRequestException -> DialogHelper.DialogInstance(
-//                requireActivity(),
-//                R.string.submission_qr_code_scan_invalid_dialog_headline,
-//                R.string.submission_qr_code_scan_invalid_dialog_body,
-//                R.string.submission_qr_code_scan_invalid_dialog_button_positive,
-//                R.string.submission_qr_code_scan_invalid_dialog_button_negative,
-//                true,
-//                { startDecode() },
-//                ::navigateToDispatchScreen
-//            )
-//            is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
-//                requireActivity(),
-//                R.string.submission_error_dialog_web_generic_error_title,
-//                getString(
-//                    R.string.submission_error_dialog_web_generic_network_error_body,
-//                    exception.statusCode
-//                ),
-//                R.string.submission_error_dialog_web_generic_error_button_positive,
-//                null,
-//                true,
-//                ::navigateToDispatchScreen
-//            )
-//            else -> DialogHelper.DialogInstance(
-//                requireActivity(),
-//                R.string.submission_error_dialog_web_generic_error_title,
-//                R.string.submission_error_dialog_web_generic_error_body,
-//                R.string.submission_error_dialog_web_generic_error_button_positive,
-//                null,
-//                true,
-//                ::navigateToDispatchScreen
-//            )
-//        }
-//    }
-//
-//    private fun navigateToDispatchScreen() =
-//        doNavigate(
-//            SubmissionQRCodeScanFragmentDirections.actionSubmissionQRCodeScanFragmentToSubmissionDispatcherFragment()
-//        )
-//
-//    private fun showInvalidScanDialog() {
-//        val invalidScanDialogInstance = DialogHelper.DialogInstance(
-//            requireActivity(),
-//            R.string.submission_qr_code_scan_invalid_dialog_headline,
-//            R.string.submission_qr_code_scan_invalid_dialog_body,
-//            R.string.submission_qr_code_scan_invalid_dialog_button_positive,
-//            R.string.submission_qr_code_scan_invalid_dialog_button_negative,
-//            true,
-//            ::startDecode,
-//            ::navigateToDispatchScreen
-//        )
-//
-//        DialogHelper.showDialog(invalidScanDialogInstance)
-//    }
-//
+    @Inject lateinit var viewModelFactory: CWAViewModelFactoryProvider.Factory
+    private val viewModel: SubmissionQRCodeScanViewModel by cwaViewModels { viewModelFactory }
+
+    private val binding: FragmentSubmissionQrCodeScanBinding by viewBindingLazy()
+    private var showsPermissionDialog = false
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.submissionQrCodeScanTorch.setOnCheckedChangeListener { _, isChecked ->
+            binding.submissionQrCodeScanPreview.setTorch(
+                isChecked
+            )
+        }
+
+        binding.submissionQrCodeScanClose.setOnClickListener {
+            viewModel.onClosePressed()
+        }
+
+        binding.submissionQrCodeScanPreview.decoderFactory =
+            DefaultDecoderFactory(listOf(BarcodeFormat.QR_CODE))
+
+        binding.submissionQrCodeScanViewfinderView.setCameraPreview(binding.submissionQrCodeScanPreview)
+
+        viewModel.scanStatusValue.observe2(this) {
+            if (ScanStatus.INVALID == it) {
+                showInvalidScanDialog()
+            }
+        }
+
+        viewModel.showRedeemedTokenWarning.observe2(this) {
+            val dialog = DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_tan_redeemed_title,
+                R.string.submission_error_dialog_web_tan_redeemed_body,
+                R.string.submission_error_dialog_web_tan_redeemed_button_positive
+            )
+
+            DialogHelper.showDialog(dialog)
+            goBack()
+        }
+
+        viewModel.registrationState.observe2(this) { state ->
+            binding.submissionQrCodeScanSpinner.visibility = when (state.apiRequestState) {
+                ApiRequestState.STARTED -> View.VISIBLE
+                else -> View.GONE
+            }
+            if (ApiRequestState.SUCCESS == state.apiRequestState) {
+                if (state.testResult == TestResult.POSITIVE) {
+                    doNavigate(
+                        SubmissionQRCodeScanFragmentDirections
+                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultAvailableFragment()
+                    )
+                } else {
+                    doNavigate(
+                        SubmissionQRCodeScanFragmentDirections
+                            .actionSubmissionQRCodeScanFragmentToSubmissionTestResultPendingFragment()
+                    )
+                }
+            }
+        }
+
+        viewModel.registrationError.observe2(this) {
+            DialogHelper.showDialog(buildErrorDialog(it))
+        }
+
+        viewModel.routeToScreen.observe2(this) {
+            when (it) {
+                is SubmissionNavigationEvents.NavigateToDispatcher ->
+                    navigateToDispatchScreen()
+                is SubmissionNavigationEvents.NavigateToConsent ->
+                    goBack()
+            }
+        }
+    }
+
+    private fun startDecode() {
+        binding.submissionQrCodeScanPreview.decodeSingle {
+            viewModel.validateTestGUID(it.text)
+        }
+    }
+
+    private fun buildErrorDialog(exception: CwaWebException): DialogHelper.DialogInstance {
+        return when (exception) {
+            is BadRequestException -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_qr_code_scan_invalid_dialog_headline,
+                R.string.submission_qr_code_scan_invalid_dialog_body,
+                R.string.submission_qr_code_scan_invalid_dialog_button_positive,
+                R.string.submission_qr_code_scan_invalid_dialog_button_negative,
+                true,
+                { startDecode() },
+                ::navigateToDispatchScreen
+            )
+            is CwaClientError, is CwaServerError -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                getString(
+                    R.string.submission_error_dialog_web_generic_network_error_body,
+                    exception.statusCode
+                ),
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                true,
+                ::navigateToDispatchScreen
+            )
+            else -> DialogHelper.DialogInstance(
+                requireActivity(),
+                R.string.submission_error_dialog_web_generic_error_title,
+                R.string.submission_error_dialog_web_generic_error_body,
+                R.string.submission_error_dialog_web_generic_error_button_positive,
+                null,
+                true,
+                ::navigateToDispatchScreen
+            )
+        }
+    }
+
+    private fun navigateToDispatchScreen() =
+        doNavigate(
+            SubmissionQRCodeScanFragmentDirections.actionSubmissionQRCodeScanFragmentToSubmissionDispatcherFragment()
+        )
+
+    private fun showInvalidScanDialog() {
+        val invalidScanDialogInstance = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_qr_code_scan_invalid_dialog_headline,
+            R.string.submission_qr_code_scan_invalid_dialog_body,
+            R.string.submission_qr_code_scan_invalid_dialog_button_positive,
+            R.string.submission_qr_code_scan_invalid_dialog_button_negative,
+            true,
+            ::startDecode,
+            ::navigateToDispatchScreen
+        )
+
+        DialogHelper.showDialog(invalidScanDialogInstance)
+    }
+
 //    override fun onRequestPermissionsResult(
 //        requestCode: Int,
 //        permissions: Array<String>,
@@ -182,26 +190,26 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 //            }
 //        }
 //    }
-//
-//    override fun onResume() {
-//        super.onResume()
-//        binding.submissionQrCodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
+
+    override fun onResume() {
+        super.onResume()
+        binding.submissionQrCodeScanContainer.sendAccessibilityEvent(AccessibilityEvent.TYPE_ANNOUNCEMENT)
 //
 //        if (CameraPermissionHelper.hasCameraPermission(requireActivity())) {
 //            binding.submissionQrCodeScanPreview.resume()
 //            startDecode()
 //            return
 //        }
-//
-//        // we might already show a rational dialog (e.g. when onRequestPermissionsResult was denied
-//        // then do nothing
-//        if (showsPermissionDialog) {
-//            return
-//        }
-//
-//        requestCameraPermission()
-//    }
-//
+
+        // we might already show a rational dialog (e.g. when onRequestPermissionsResult was denied
+        // then do nothing
+        if (showsPermissionDialog) {
+            return
+        }
+
+        requestCameraPermission()
+    }
+
 //    private fun showCameraPermissionDeniedDialog() {
 //        val permissionDeniedDialog = DialogHelper.DialogInstance(
 //            requireActivity(),
@@ -217,42 +225,42 @@ class SubmissionQRCodeScanFragment : Fragment(R.layout.fragment_submission_qr_co
 //        showsPermissionDialog = true
 //        DialogHelper.showDialog(permissionDeniedDialog)
 //    }
-//
-//    private fun showCameraPermissionRationaleDialog() {
-//        val cameraPermissionRationaleDialogInstance = DialogHelper.DialogInstance(
-//            requireActivity(),
-//            R.string.submission_qr_code_scan_permission_rationale_dialog_headline,
-//            R.string.submission_qr_code_scan_permission_rationale_dialog_body,
-//            R.string.submission_qr_code_scan_permission_rationale_dialog_button_positive,
-//            R.string.submission_qr_code_scan_permission_rationale_dialog_button_negative,
-//            false,
-//            {
-//                showsPermissionDialog = false
-//                requestCameraPermission()
-//            },
-//            {
-//                showsPermissionDialog = false
-//                viewModel.onBackPressed()
-//            }
-//        )
-//
-//        showsPermissionDialog = true
-//        DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
-//    }
-//
-//    private fun goBack() = (activity as MainActivity).goBack()
-//
-//    private fun requestCameraPermission() = requestPermissions(
-//        arrayOf(Manifest.permission.CAMERA),
-//        REQUEST_CAMERA_PERMISSION_CODE
-//    )
-//
-//    override fun onPause() {
-//        super.onPause()
-//        binding.submissionQrCodeScanPreview.pause()
-//    }
-//
-//    companion object {
-//        private const val REQUEST_CAMERA_PERMISSION_CODE = 1
-//    }
+
+    private fun showCameraPermissionRationaleDialog() {
+        val cameraPermissionRationaleDialogInstance = DialogHelper.DialogInstance(
+            requireActivity(),
+            R.string.submission_qr_code_scan_permission_rationale_dialog_headline,
+            R.string.submission_qr_code_scan_permission_rationale_dialog_body,
+            R.string.submission_qr_code_scan_permission_rationale_dialog_button_positive,
+            R.string.submission_qr_code_scan_permission_rationale_dialog_button_negative,
+            false,
+            {
+                showsPermissionDialog = false
+                requestCameraPermission()
+            },
+            {
+                showsPermissionDialog = false
+                viewModel.onBackPressed()
+            }
+        )
+
+        showsPermissionDialog = true
+        DialogHelper.showDialog(cameraPermissionRationaleDialogInstance)
+    }
+
+    private fun goBack() = (activity as MainActivity).goBack()
+
+    private fun requestCameraPermission() = requestPermissions(
+        arrayOf(Manifest.permission.CAMERA),
+        REQUEST_CAMERA_PERMISSION_CODE
+    )
+
+    override fun onPause() {
+        super.onPause()
+        binding.submissionQrCodeScanPreview.pause()
+    }
+
+    companion object {
+        private const val REQUEST_CAMERA_PERMISSION_CODE = 1
+    }
 }

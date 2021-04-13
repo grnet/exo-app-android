@@ -20,16 +20,17 @@
             android:focusable="false"
             app:body="@{@string/onboarding_body}"
             app:bodyEmphasized="@{@string/onboarding_body_emphasized}"
+
             app:headline="@{@string/onboarding_headline}"
-            app:easyLanguageText="@{@string/onboarding_tracing_easy_language_explanation}"
             app:illustration="@{@drawable/ic_illustration_together}"
             app:illustrationDescription="@{@string/onboarding_illustration_description}"
             app:layout_constraintBottom_toTopOf="@+id/onboarding_button_next"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
             app:subtitle="@{@string/onboarding_subtitle}" />
-
         <Button
             android:id="@+id/onboarding_button_next"
             style="@style/buttonPrimary"

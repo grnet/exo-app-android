@@ -2,10 +2,12 @@ package de.rki.coronawarnapp.ui.main
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import de.rki.coronawarnapp.test.api.ui.TestForAPIFragment
-import de.rki.coronawarnapp.test.api.ui.TestForApiFragmentModule
+import de.rki.coronawarnapp.miscinfo.MiscInfoFragment
+import de.rki.coronawarnapp.miscinfo.MiscInfoFragmentModule
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragment
 import de.rki.coronawarnapp.test.appconfig.ui.AppConfigTestFragmentModule
+import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment
+import de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragmentModule
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragment
 import de.rki.coronawarnapp.test.debugoptions.ui.DebugOptionsFragmentModule
 import de.rki.coronawarnapp.test.keydownload.ui.KeyDownloadTestFragment
@@ -28,8 +30,8 @@ abstract class MainActivityTestModule {
     @ContributesAndroidInjector(modules = [TestRiskLevelCalculationFragmentModule::class])
     abstract fun testRiskLevelCalculationFragment(): TestRiskLevelCalculationFragment
 
-    @ContributesAndroidInjector(modules = [TestForApiFragmentModule::class])
-    abstract fun testRiskLevelApiFragment(): TestForAPIFragment
+    @ContributesAndroidInjector(modules = [MiscInfoFragmentModule::class])
+    abstract fun miscInfoFragment(): MiscInfoFragment
 
     @ContributesAndroidInjector(modules = [TestTaskControllerFragmentModule::class])
     abstract fun testTaskControllerFragment(): TestTaskControllerFragment
@@ -45,4 +47,7 @@ abstract class MainActivityTestModule {
 
     @ContributesAndroidInjector(modules = [SubmissionTestFragmentModule::class])
     abstract fun submissionTest(): SubmissionTestFragment
+
+    @ContributesAndroidInjector(modules = [ContactDiaryTestFragmentModule::class])
+    abstract fun contactDiaryTest(): ContactDiaryTestFragment
 }

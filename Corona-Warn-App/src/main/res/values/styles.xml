@@ -5,16 +5,44 @@
         <item name="colorPrimaryDark">@color/colorStableDark</item>
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="alertDialogTheme">@style/dialog</item>
+        <item name="android:actionOverflowButtonStyle">@style/CWAToolbar.Overflow</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="MaterialAppTheme" parent="Theme.MaterialComponents.DayNight">
+        <item name="colorPrimary">@color/colorBrandSecondary</item>
+        <item name="colorPrimaryDark">@color/colorStableDark</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="alertDialogTheme">@style/diaryDialog</item>
+    </style>
+
+    <style name="MaterialAppTheme.NoActionBar" parent="MaterialAppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="dialogTheme">@style/diaryDialog</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme.ContactDiary" parent="MaterialAppTheme.NoActionBar" />
+
+    <style name="ThemeOverlay.App.ExtendedFloatingActionButton" parent="">
+        <item name="colorSecondary">@color/colorAccentTintButton</item>
+        <item name="colorOnSecondary">@color/colorTextEmphasizedButton</item>
+        <item name="colorOnSurface">@color/colorAccentTintButtonPressed</item>
+    </style>
+
+    <style name="Widget.App.ExtendedFloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton.Icon">
+        <item name="materialThemeOverlay">
+            @style/ThemeOverlay.App.ExtendedFloatingActionButton
+        </item>
+    </style>
 
     <!-- Launcher theme with background -->
     <style name="AppTheme.Launcher" parent="AppTheme.NoActionBar">
@@ -24,14 +52,45 @@
     <!-- Main Application -->
     <style name="AppTheme.Main" parent="AppTheme.NoActionBar" />
 
-    <style name="actionBar" parent="@style/ThemeOverlay.MaterialComponents.ActionBar">
+    <style name="CWAToolbar" parent="@style/ThemeOverlay.AppCompat.DayNight.ActionBar">
+        <item name="colorPrimary">@color/colorSurface1</item>
         <item name="android:background">@color/colorSurface1</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="CWAToolbar.Menu" parent="@style/Widget.AppCompat.PopupMenu">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
+    <style name="CWAToolbar.Overflow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/colorWhite</item>
+    </style>
+
+    <style name="CWAToolbar.BackArrow">
+        <item name="navigationIcon">@drawable/ic_back</item>
+        <item name="navigationContentDescription">@string/accessibility_back</item>
+    </style>
+
+    <style name="CWAToolbar.Close">
+        <item name="navigationIcon">@drawable/ic_close</item>
+        <item name="navigationContentDescription">@string/accessibility_close</item>
     </style>
 
     <!-- Default dialog -->
     <style name="dialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="buttonBarPositiveButtonStyle">@style/dialogPositiveButtonStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/dialogNegativeButtonStyle</item>
+    </style>
+
+    <style name="diaryDialogButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/colorAccentTintButton</item>
+    </style>
+    <style name="diaryButtonNegative" parent="Widget.MaterialComponents.Button.TextButton" />
+
+    <!--    Contact Diary Dialog-->
+    <style name="diaryDialog" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/diaryDialogButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/diaryDialogButton</item>
     </style>
 
     <style name="dialogPositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
@@ -60,18 +119,18 @@
         <item name="android:textColor">@color/button_text_color_emphasized</item>
     </style>
 
-    <style name="buttonReset" parent="@style/button">
+    <style name="buttonReset" parent="button">
         <item name="android:backgroundTint">@color/button_red</item>
         <item name="android:textColor">@color/button_text_color_emphasized</item>
     </style>
 
-    <style name="buttonLight" parent="@style/button">
+    <style name="buttonLight" parent="button">
         <item name="android:backgroundTint">@color/button_light</item>
         <item name="android:stateListAnimator">@null</item>
     </style>
 
     <style name="buttonIcon">
-        <item name="android:background">@drawable/circle</item>
+        <item name="android:background">@drawable/circle_ripple</item>
         <item name="android:backgroundTint">@color/button_back</item>
     </style>
 
@@ -85,7 +144,7 @@
         <item name="android:paddingBottom">@dimen/spacing_tiny</item>
     </style>
 
-    <style name="switchBase" parent="@style/Widget.AppCompat.CompoundButton.Switch">
+    <style name="switchBase" parent="Widget.AppCompat.CompoundButton.Switch">
         <item name="android:colorControlActivated">@color/colorAccentTintIcon</item>
     </style>
 
@@ -104,11 +163,11 @@
     </style>
 
     <style name="rowSettings" parent="@style/row">
-        <item name="android:paddingStart">@dimen/match_constraint</item>
+        <item name="android:paddingStart">0dp</item>
     </style>
 
     <style name="rowOverview" parent="@style/row">
-        <item name="android:paddingStart">@dimen/match_constraint</item>
+        <item name="android:paddingStart">0dp</item>
         <item name="android:paddingTop">@dimen/spacing_tiny</item>
         <item name="android:paddingBottom">@dimen/spacing_tiny</item>
     </style>
@@ -116,28 +175,30 @@
     <!-- ####################################
                     Card
     ###################################### -->
-    <style name="card">
+    <style name="Card">
         <item name="android:padding">@dimen/card_padding</item>
         <item name="android:background">@drawable/card</item>
-        <item name="android:backgroundTint">@color/card_light</item>
         <item name="android:elevation">@dimen/elevation_strong</item>
     </style>
 
-    <style name="cardNoPadding" parent="card">
+    <style name="Card.NoPadding">
         <item name="android:padding">@dimen/no_padding</item>
+    </style>
+
+    <style name="GreyCard" parent="Card.NoPadding">
+        <item name="android:tint">@color/card_dark</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:backgroundTint">@color/colorSurface2</item>
+    </style>
+
+    <style name="GreyCard.Ripple">
+        <item name="android:background">@drawable/grey_card_ripple</item>
     </style>
 
     <style name="cardTracing">
         <item name="android:padding">@dimen/card_padding</item>
         <item name="android:background">@drawable/card</item>
         <item name="android:backgroundTint">@color/colorSurface2</item>
-    </style>
-
-    <style name="SixteenInclude">
-        <item name="android:padding">@dimen/card_padding</item>
-        <item name="android:background">@drawable/card</item>
-        <item name="android:backgroundTint">@color/colorSemanticNeutralRisk</item>
-        <item name="android:textColor">@color/colorStableLight</item>
     </style>
 
     <style name="selectionButton" parent="@style/Widget.AppCompat.Button.Borderless">
@@ -155,10 +216,6 @@
     <style name="targetLayout">
         <item name="android:padding">@dimen/card_padding</item>
         <item name="android:background">@drawable/card</item>
-    </style>
-
-    <style name="cardGrey">
-        <item name="android:background">@drawable/card_dark</item>
     </style>
 
     <!-- ####################################
@@ -182,11 +239,14 @@
     </style>
 
     <style name="headline5" parent="@style/TextAppearance.MaterialComponents.Headline5">
-        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textColor">@color/colorTextHeadline</item>
     </style>
 
     <style name="headline5Tint" parent="@style/headline5">
         <item name="android:textColor">@color/colorTextTint</item>
+    </style>
+    <style name="headline5Bold" parent="@style/TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="headline6" parent="@style/TextAppearance.MaterialComponents.Headline6">
@@ -222,18 +282,18 @@
     </style>
 
     <style name="headline6Sixteen" parent="@style/TextAppearance.MaterialComponents.Headline6">
-        <item name="android:textColor">@color/colorTextSixteenWhite</item>
+        <item name="android:textColor">@color/colorTextSixteen</item>
     </style>
 
     <style name="subtitleSixteen" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
-        <item name="android:textColor">@color/colorTextSixteenWhite</item>
+        <item name="android:textColor">@color/colorTextSixteen</item>
     </style>
 
     <!-- ####################################
               Icons
     ###################################### -->
     <style name="icon">
-        <item name="android:tint">@color/colorTextPrimary1</item>
+        <item name="android:tint">@color/colorWhite</item>
     </style>
 
     <style name="iconStable">
@@ -325,4 +385,50 @@
         <item name="android:fontFamily">sans-serif-black</item>
         <item name="android:letterSpacing">2</item>
     </style>
+
+    <!-- ####################################
+        Contact Diary
+    ###################################### -->
+    <style name="contactDiaryListItem" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="contactDiaryCard">
+        <item name="android:background">@drawable/contact_diary_card</item>
+    </style>
+
+    <style name="contactDiaryCardRipple">
+        <item name="android:background">@drawable/contact_diary_card_ripple</item>
+    </style>
+
+    <style name="StatisticsCardInfoButton" parent="buttonIcon">
+        <item name="android:height">@dimen/button_icon</item>
+        <item name="android:width">@dimen/button_icon</item>
+        <item name="android:src">@drawable/ic_info</item>
+        <item name="android:padding">14dp</item>
+        <item name="android:contentDescription">@string/statistics_info_button</item>
+    </style>
+
+    <style name="StatisticsCardPrimaryTitle" parent="headline5" />
+
+    <style name="StatisticsCardValueLabel" parent="subtitle">
+        <item name="android:textColor">@color/colorStatisticsValueLabel</item>
+    </style>
+
+    <style name="StatisticsCardTitleCaption">
+        <item name="android:textColor">@color/colorStatisticsValueLabel</item>
+        <item name="android:textSize">@dimen/font_small</item>
+    </style>
+
+    <style name="StatisticsCardPrimaryValue">
+        <item name="android:textColor">@color/colorStatisticsPrimaryValue</item>
+        <item name="android:textSize">@dimen/font_huge</item>
+    </style>
+
+    <style name="StatisticsCardSecondaryValue" parent="TextAppearance.AppCompat.Body2">
+        <item name="android:textSize">@dimen/font_title</item>
+        <item name="android:textColor">@color/colorTextPrimary1</item>
+    </style>
+
 </resources>

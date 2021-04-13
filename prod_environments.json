@@ -1,9 +1,10 @@
 {
   "PROD": {
     "USE_EUR_KEY_PKGS": false,
-    "SUBMISSION_CDN_URL": "https://submission-testing.exo.grnet.gr",
-    "DOWNLOAD_CDN_URL": "https://objstore-testing.exo.grnet.gr",
-    "VERIFICATION_CDN_URL": "https://v-server-testing.exo.grnet.gr",
+    "SUBMISSION_CDN_URL": "https://submission-testing-exo.grnet.gr",
+    "DOWNLOAD_CDN_URL": "https://objstore-testing-exo.grnet.gr",
+    "VERIFICATION_CDN_URL": "https://v-server-testing-exo.grnet.gr",
     "PUB_KEYS_SIGNATURE_VERIFICATION":"MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEerrtUx7t4g9VQ5huiRCLP14N+QadrIYS9/P0Fcd2NwAJDHkWSuhrhvZQV01F0sGshJ+qnvjf9n8Pxe6/wgaD9A=="
   }
 }
+

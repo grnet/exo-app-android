@@ -21,17 +21,17 @@ class InformationAboutFragment : Fragment(R.layout.fragment_information_about) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setButtonOnClickListener()
-        setLinks()
+//        setLinks()
     }
 
-    private fun setLinks() {
-        binding.informationAboutEasyLanguage
-            .setOnClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW,
-                Uri.parse(getString(R.string.onboarding_tracing_easy_language_explanation_url)))
-            startActivity(browserIntent)
-        }
-    }
+//    private fun setLinks() {
+//        binding.informationAboutEasyLanguage
+//            .setOnClickListener {
+//            val browserIntent = Intent(Intent.ACTION_VIEW,
+//                Uri.parse(getString(R.string.onboarding_tracing_easy_language_explanation_url)))
+//            startActivity(browserIntent)
+//        }
+//    }
 
     override fun onResume() {
         super.onResume()

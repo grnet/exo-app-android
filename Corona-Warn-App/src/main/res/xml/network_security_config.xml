@@ -3,18 +3,18 @@
 
     <domain-config cleartextTrafficPermitted="false">
         <domain includeSubdomains="true">grnet.gr</domain>
-        <domain includeSubdomains="true">exo.grnet.gr</domain>
         <pin-set
             expiration="2024-02-12"
             tools:ignore="MissingBackupPin">
-            <pin digest="SHA-256">/SwRmXqAABB5/3fOyhvEA4kdjhMNKKFW5RBg6AIkBgM=</pin>
-            <pin digest="SHA-256">ziEEaWxrYJ1jq5b8RoPxEVmmcTR8e9uCYFEPxnEC5+o=</pin>
-            <pin digest="SHA-256">jfDF+BZfcOqf/nOXivYM1V1bII8ja2Uj1F5EjVEp+Ik=</pin>
+            <pin digest="SHA-256">pKqEFrM0EtQ6saSa4IQKOxHSU/D2g2DqcTpPT9NmP0s=</pin>
+            <pin digest="SHA-256">2XEA5h3Bsbi3Oo9FvZfdRi/aZghrRcOhdMyXLhV2BAY=</pin>
+            <pin digest="SHA-256">tfsUqY2v1T3NW7iK/xXvJjaaBsDPj2WBd4WxG+GVkaI=</pin>
         </pin-set>
         <trust-anchors>
             <certificates
-                overridePins="false"
+                overridePins="true"
                 src="system" />
         </trust-anchors>
     </domain-config>
+
 </network-security-config>

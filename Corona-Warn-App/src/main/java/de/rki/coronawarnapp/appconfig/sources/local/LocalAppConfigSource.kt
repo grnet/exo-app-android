@@ -16,17 +16,17 @@ class LocalAppConfigSource @Inject constructor(
     private val dispatcherProvider: DispatcherProvider
 ) {
 
-    suspend fun getConfigData(): ConfigData? = withContext(dispatcherProvider.IO) {
+    suspend fun getConfigData(): ConfigDataContainer? = withContext(dispatcherProvider.IO) {
         Timber.tag(TAG).v("retrieveConfig()")
 
-        val configDownload = storage.getStoredConfig()
-        if (configDownload == null) {
+        val internalConfigData = storage.getStoredConfig()
+        if (internalConfigData == null) {
             Timber.tag(TAG).d("No stored config available.")
             return@withContext null
         }
 
         return@withContext try {
-            configDownload.let {
+            internalConfigData.let {
                 ConfigDataContainer(
                     mappedConfig = parser.parse(it.rawData),
                     serverTime = it.serverTime,

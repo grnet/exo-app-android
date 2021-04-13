@@ -6,18 +6,18 @@
     <data>
 
         <variable
-            name="tracingDetails"
-            type="de.rki.coronawarnapp.ui.tracing.details.TracingDetailsState" />
+            name="loggedPeriod"
+            type="de.rki.coronawarnapp.tracing.ui.details.items.periodlogged.PeriodLoggedBox.Item" />
 
         <variable
             name="settingsTracingState"
-            type="de.rki.coronawarnapp.ui.tracing.settings.TracingSettingsState" />
+            type="de.rki.coronawarnapp.tracing.ui.settings.TracingSettingsState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/settings_tracing_container"
         android:layout_width="match_parent"
-        invisible="@{tracingDetails == null || settingsTracingState== null}"
+        invisible="@{loggedPeriod == null || settingsTracingState== null}"
         android:layout_height="match_parent"
         android:contentDescription="@string/settings_tracing_title"
         android:focusable="true">
@@ -61,7 +61,7 @@
                 <include
                     android:id="@+id/settings_tracing_switch_row"
                     layout="@layout/include_settings_switch_row"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     app:enabled="@{settingsTracingState.isTracingSwitchEnabled()}"
@@ -69,35 +69,34 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/settings_tracing_header_details"
                     app:showDivider="@{true}"
-                    app:status="@{settingsTracingState.isTracingSwitchChecked()}"
                     app:statusText="@{settingsTracingState.getTracingStatusText(context)}"
                     app:subtitle="@{@string/settings_tracing_title}" />
 
-                <include
-                    android:id="@+id/settings_interoperability_row"
-                    layout="@layout/include_settings_plain_row"
-                    android:layout_width="@dimen/match_constraint"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/settings_tracing_switch_row"
-                    app:showDivider="@{true}"
-                    app:statusText="@{@string/settings_interoperability_subtitle}"
-                    app:subtitle="@{@string/settings_interoperability_title}" />
+<!--                <include-->
+<!--                    android:id="@+id/settings_interoperability_row"-->
+<!--                    layout="@layout/include_settings_plain_row"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/settings_tracing_switch_row"-->
+<!--                    app:showDivider="@{true}"-->
+<!--                    app:statusText="@{@string/settings_interoperability_subtitle}"-->
+<!--                    app:subtitle="@{@string/settings_interoperability_title}" />-->
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/settings_tracing_status"
-                    android:layout_width="@dimen/match_constraint"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/settings_interoperability_row">
+                    app:layout_constraintTop_toBottomOf="@id/settings_tracing_switch_row">
 
                     <include
                         android:id="@+id/settings_tracing_status_location"
                         layout="@layout/include_tracing_status_card_location"
-                        android:layout_width="@dimen/match_constraint"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         gone="@{!settingsTracingState.isLocationCardVisible()}"
                         app:buttonText="@{@string/settings_tracing_status_location_button}"
@@ -110,7 +109,7 @@
                     <include
                         android:id="@+id/settings_tracing_status_bluetooth"
                         layout="@layout/include_tracing_status_card"
-                        android:layout_width="@dimen/match_constraint"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         gone="@{!settingsTracingState.isBluetoothCardVisible()}"
                         app:body="@{@string/settings_tracing_status_bluetooth_body}"
@@ -131,7 +130,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
                         app:layout_constraintStart_toEndOf="@+id/guideline_start"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:tracingDetails="@{tracingDetails}" />
+                        app:loggedPeriod="@{loggedPeriod}" />
 
                     <include layout="@layout/merge_guidelines_card" />
 
@@ -152,7 +151,7 @@
                     <TextView
                         android:id="@+id/settings_tracing_body"
                         style="@style/body1"
-                        android:layout_width="@dimen/match_constraint"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:focusable="true"
                         android:text="@string/settings_tracing_body_text"

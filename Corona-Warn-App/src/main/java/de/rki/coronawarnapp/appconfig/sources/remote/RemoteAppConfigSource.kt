@@ -19,7 +19,7 @@ class RemoteAppConfigSource @Inject constructor(
 ) {
 
     suspend fun getConfigData(): ConfigData? = withContext(dispatcherProvider.IO) {
-        Timber.tag(TAG).v("retrieveConfig()")
+        Timber.tag(TAG).v("getConfigData()")
 
         val configDownload = try {
             server.downloadAppConfig()
@@ -45,10 +45,6 @@ class RemoteAppConfigSource @Inject constructor(
             Timber.tag(TAG).e(e, "Failed to parse AppConfig from server, trying fallback.")
             null
         }
-    }
-
-    fun clear() {
-        server.clearCache()
     }
 
     companion object {

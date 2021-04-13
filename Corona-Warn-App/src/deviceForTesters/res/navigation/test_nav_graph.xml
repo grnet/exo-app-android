@@ -14,9 +14,6 @@
             android:id="@+id/action_testMenuFragment_to_settingsCrashReportFragment"
             app:destination="@id/test_bug_report_fragment" />
         <action
-            android:id="@+id/action_testMenuFragment_to_testForAPIFragment"
-            app:destination="@id/test_for_api_fragment" />
-        <action
             android:id="@+id/action_testMenuFragment_to_testRiskLevelCalculation"
             app:destination="@id/test_risklevel_calculation_fragment" />
         <action
@@ -34,13 +31,13 @@
         <action
             android:id="@+id/action_test_menu_fragment_to_submissionTestFragment"
             app:destination="@id/test_submission_fragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_miscInfoFragment"
+            app:destination="@id/miscInfoFragment" />
+        <action
+            android:id="@+id/action_test_menu_fragment_to_contactDiaryTestFragment"
+            app:destination="@id/test_contact_diary_fragment" />
     </fragment>
-
-    <fragment
-        android:id="@+id/test_for_api_fragment"
-        android:name="de.rki.coronawarnapp.test.api.ui.TestForAPIFragment"
-        android:label="@layout/fragment_test_for_a_p_i"
-        tools:layout="@layout/fragment_test_for_a_p_i" />
 
     <fragment
         android:id="@+id/test_bug_report_fragment"
@@ -94,5 +91,14 @@
         android:name="de.rki.coronawarnapp.test.submission.ui.SubmissionTestFragment"
         android:label="SubmissionTestFragment"
         tools:layout="@layout/fragment_test_submission" />
+    <fragment
+        android:id="@+id/miscInfoFragment"
+        android:name="de.rki.coronawarnapp.miscinfo.MiscInfoFragment"
+        android:label="MiscInfoFragment" />
+    <fragment
+        android:id="@+id/test_contact_diary_fragment"
+        android:name="de.rki.coronawarnapp.test.contactdiary.ui.ContactDiaryTestFragment"
+        android:label="ContactDiaryTestFragment"
+        tools:layout="@layout/fragment_test_contact_diary" />
 
 </navigation>

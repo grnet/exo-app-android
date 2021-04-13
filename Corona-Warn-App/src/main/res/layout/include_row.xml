@@ -27,6 +27,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/root_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -48,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/spacing_tiny"
                 android:text="@{subtitle}"
+                android:textColor="@color/colorTextHeadline"
                 app:layout_constraintEnd_toStartOf="@+id/main_row_item_icon"
                 app:layout_constraintStart_toEndOf="@+id/guideline_body"
                 app:layout_constraintTop_toTopOf="parent" />
